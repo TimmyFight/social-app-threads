@@ -1,5 +1,5 @@
 const BottomBar = () => {
-  return <div>BottomBar</div>;
+  return <section data-testid="bottomBar">BottomBar</section>;
 };
 
 export default BottomBar;
