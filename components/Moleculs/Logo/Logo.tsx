@@ -11,7 +11,7 @@ const Logo = () => {
       data-testid="logo"
     >
       <Image
-        src="/logo.svg"
+        src="/assets/logo.svg"
         alt="SocialApp"
         width={28}
         height={28}
