@@ -1,9 +1,11 @@
-import { UserButton } from '@clerk/nextjs';
+import Headings from '@/components/Atoms/Headings/Headings';
 
 export default function Home() {
   return (
-    <div className="h-screen">
-      <UserButton afterSignOutUrl="/" />
-    </div>
+    <>
+      <Headings level={1}>
+        <>Home</>
+      </Headings>
+    </>
   );
 }

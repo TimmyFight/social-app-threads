@@ -1,7 +1,14 @@
+import Headings from '@/components/Atoms/Headings/Headings';
+
 async function Page() {
   return (
     <main>
-      <h1 className="head-text">Onboarding</h1>
+      <Headings
+        level={1}
+        customClass="heading-text"
+      >
+        <>Onboarding</>
+      </Headings>
     </main>
   );
 }
