@@ -1,5 +1,4 @@
 import Logo from '@/components/Moleculs/Logo/Logo';
-import MainNavigation from '@/components/Moleculs/MainNavigation/MainNavigation';
 import UserControls from '@/components/Moleculs/UserControls/UserControls';
 
 const TopBar = () => {
@@ -9,7 +8,6 @@ const TopBar = () => {
       data-testid="topBar"
     >
       <Logo />
-      <MainNavigation />
       <UserControls />
     </section>
   );
