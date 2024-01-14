@@ -1,5 +1,47 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import Typography from '@/components/Atoms/Typography/Typography';
+import { sidebarLinks } from '@/constants';
+
 const BottomBar = () => {
-  return <section data-testid="bottomBar">BottomBar</section>;
+  const pathname = usePathname();
+
+  return (
+    <section
+      className="bottombar"
+      data-testid="bottomBar"
+    >
+      <div className="bottombar_container">
+        {sidebarLinks.map((link) => {
+          const isActive =
+            (pathname.includes(link.route) && link.route.length > 1) ||
+            pathname === link.route;
+          return (
+            <Link
+              key={link.label}
+              href={link.route}
+              title={link.label}
+              className={`bottombar_link ${isActive && 'bg-primary-500'}`}
+            >
+              <Image
+                src={link.imgURL}
+                alt={link.label}
+                width={24}
+                height={24}
+              />
+              <Typography customClass="text-subtle-medium text-light-1 max-sm:hidden">
+                <>{link.label.split(/\s+/)[0]}</>
+              </Typography>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
 };
 
 export default BottomBar;
