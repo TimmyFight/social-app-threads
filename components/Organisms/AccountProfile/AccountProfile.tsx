@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -40,6 +42,13 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProperties) => {
     },
   });
 
+  const handleImage = (
+    e: ChangeEvent,
+    fieldChange: (value: string) => void,
+  ) => {
+    e.preventDefault();
+  };
+
   const onSubmit = (values: z.infer<typeof UserValidation>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -50,24 +59,42 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProperties) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
+        className="flex flex-col justify-start gap-10"
       >
         <FormField
           control={form.control}
-          name="username"
+          name="profile_photo"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
+            <FormItem className="flex items-center gap-4">
+              <FormLabel className="account-form_image-label">
+                {field.value ? (
+                  <Image
+                    src={field.value}
+                    alt="profile_photo"
+                    width={96}
+                    height={96}
+                    priority
+                    className="rounded-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src="/assets/profile.svg"
+                    alt="profile_photo"
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                )}
+              </FormLabel>
+              <FormControl className="flex-1 text-base-semibold text-gray-200">
                 <Input
-                  placeholder="shadcn"
-                  {...field}
+                  type="file"
+                  accept="image/*"
+                  placeholder="U[load a photo"
+                  className="account-form_image-input"
+                  onChange={(e) => handleImage(e, field.onChange)}
                 />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
