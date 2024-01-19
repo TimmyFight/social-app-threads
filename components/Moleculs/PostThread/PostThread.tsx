@@ -57,7 +57,7 @@ const PostThread = ({ userId }: PostThreadProperties) => {
           render={({ field }) => (
             <FormItem className="flex flex-col gap-3 w-full">
               <FormLabel className="text-base-semibold text-light-2">
-                Content of Thread
+                Content
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
                 <Textarea
