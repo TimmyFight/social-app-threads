@@ -2,6 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 
 import Headings from '@/components/Atoms/Headings/Headings';
 import Typography from '@/components/Atoms/Typography/Typography';
+import ThreadCard from '@/components/Moleculs/ThreadCard/ThreadCard';
 import { fetchPosts } from '@/lib/actions/thread.actions';
 
 export default async function Home() {
@@ -29,7 +30,7 @@ export default async function Home() {
               <ThreadCard
                 key={post._id}
                 id={post._id}
-                currentUserId={user?.id}
+                currentUserId={user?.id || ''}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
