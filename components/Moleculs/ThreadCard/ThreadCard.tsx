@@ -86,7 +86,7 @@ const ThreadCard = ({
                   className="cursor-pointer object-contain"
                 />
 
-                <Link href={`/thred/${id}`}>
+                <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
                     alt="reply"
@@ -112,6 +112,13 @@ const ThreadCard = ({
                   className="cursor-pointer object-contain"
                 />
               </div>
+              {isComment && comments.length > 0 && (
+                <Link href={`/thread/${id}`}>
+                  <Typography customClass="mt-1 text-subtle-medium text-gray">
+                    <>{comments.length} replies</>
+                  </Typography>
+                </Link>
+              )}
             </div>
           </div>
         </div>
