@@ -13,6 +13,13 @@ interface ThreadValues {
   path: string;
 }
 
+interface CommentValues {
+  threadId: string;
+  commentText: string;
+  userId: string;
+  path: string;
+}
+
 export async function createThread({
   text,
   author,
@@ -32,6 +39,39 @@ export async function createThread({
   });
 
   revalidatePath(path);
+}
+
+export async function addCommentToThread({
+  threadId,
+  commentText,
+  userId,
+  path,
+}: CommentValues) {
+  connectToDB();
+
+  try {
+    const originalThread = await Thread.findById(threadId);
+
+    if (!originalThread) {
+      throw new Error('Thread was not found');
+    }
+
+    const commentThread = new Thread({
+      text: commentText,
+      author: userId,
+      parentId: threadId,
+    });
+
+    const savedCommentThread = await commentThread.save();
+
+    originalThread.children.push(savedCommentThread._id);
+
+    await originalThread.save();
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Adding comment to thread failed: ${error.message}`);
+  }
 }
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {

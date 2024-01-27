@@ -1,6 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
+import Comment from '@/components/Moleculs/Comment/Comment';
 import ThreadCard from '@/components/Moleculs/ThreadCard/ThreadCard';
 import { fetchThreadById } from '@/lib/actions/thread.actions';
 import { fetchUser } from '@/lib/actions/user.actions';
@@ -29,6 +30,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+        />
+      </div>
+
+      <div className="mt-7">
+        <Comment
+          threadId={thread.id}
+          currentUserImg={user.imageUrl}
+          currentUserId={JSON.stringify(userInfo._id)}
         />
       </div>
     </section>
