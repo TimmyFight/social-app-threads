@@ -1,6 +1,6 @@
 'use client';
 
-import { SignedIn, SignOutButton } from '@clerk/nextjs';
+import { SignedIn, SignOutButton, useAuth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import { sidebarLinks } from '@/constants';
 const LeftBar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { userId } = useAuth();
 
   return (
     <section
@@ -22,6 +23,8 @@ const LeftBar = () => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
+
+          if (link.route === '/profile') link.route = `${link.route}/${userId}`;
           return (
             <Link
               key={link.label}
