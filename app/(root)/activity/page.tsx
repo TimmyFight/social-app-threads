@@ -58,7 +58,7 @@ async function Page() {
           </>
         ) : (
           <>
-            <Typography customClass="!text-base-regular text-light-3">
+            <Typography customClass="no-result">
               <>No activity yet.</>
             </Typography>
           </>
