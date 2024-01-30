@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Headings from '@/components/Atoms/Headings/Headings';
+import Typography from '@/components/Atoms/Typography/Typography';
 import { formatDateString } from '@/lib/utils';
 
 import DeleteThread from '../DeleteThread/DeleteThread';
@@ -69,12 +71,14 @@ function ThreadCard({
               href={`/profile/${author.id}`}
               className="w-fit"
             >
-              <h4 className="cursor-pointer text-base-semibold text-light-1">
-                {author.name}
-              </h4>
+              <Headings customClass="cursor-pointer text-base-semibold text-light-1">
+                <>{author.name}</>
+              </Headings>
             </Link>
 
-            <p className="mt-2 text-small-regular text-light-2">{content}</p>
+            <Typography customClass="mt-2 text-small-regular text-light-2">
+              <>{content}</>
+            </Typography>
 
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
@@ -112,9 +116,11 @@ function ThreadCard({
 
               {isComment && comments.length > 0 && (
                 <Link href={`/thread/${id}`}>
-                  <p className="mt-1 text-subtle-medium text-gray-1">
-                    {comments.length} repl{comments.length > 1 ? 'ies' : 'y'}
-                  </p>
+                  <Typography customClass="mt-1 text-subtle-medium text-gray-1">
+                    <>
+                      {comments.length} repl{comments.length > 1 ? 'ies' : 'y'}
+                    </>
+                  </Typography>
                 </Link>
               )}
             </div>
@@ -144,9 +150,11 @@ function ThreadCard({
           ))}
 
           <Link href={`/thread/${id}`}>
-            <p className="mt-1 text-subtle-medium text-gray-1">
-              {comments.length} repl{comments.length > 1 ? 'ies' : 'y'}
-            </p>
+            <Typography customClass="mt-1 text-subtle-medium text-gray-1">
+              <>
+                {comments.length} repl{comments.length > 1 ? 'ies' : 'y'}
+              </>
+            </Typography>
           </Link>
         </div>
       )}
@@ -156,10 +164,12 @@ function ThreadCard({
           href={`/communities/${community.id}`}
           className="mt-5 flex items-center"
         >
-          <p className="text-subtle-medium text-gray-1">
-            {formatDateString(createdAt)}
-            {community && ` - ${community.name} Community`}
-          </p>
+          <Typography customClass="text-subtle-medium text-gray-1">
+            <>
+              {formatDateString(createdAt)}
+              {community && ` - ${community.name} Community`}
+            </>
+          </Typography>
 
           <Image
             src={community.image}
