@@ -1,6 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
+import BackButton from '@/components/Atoms/BackButton/BackButton';
 import Comment from '@/components/Moleculs/Comment/Comment';
 import ThreadCard from '@/components/Moleculs/ThreadCard/ThreadCard';
 import { fetchThreadById } from '@/lib/actions/thread.actions';
@@ -57,6 +58,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           />
         ))}
       </div>
+      <BackButton />
     </section>
   );
 };
