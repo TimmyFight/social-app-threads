@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import Community from '../models/community.model';
 import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
@@ -141,5 +142,66 @@ export async function fetchThreadById(id: string) {
     return thread;
   } catch (error: any) {
     throw new Error(`Error fetching thread: ${error.message}`);
+  }
+}
+
+async function fetchAllChildThreads(threadId: string): Promise<any[]> {
+  const childThreads = await Thread.find({ parentId: threadId });
+
+  const descendantThreads = [];
+  for (const childThread of childThreads) {
+    const descendants = await fetchAllChildThreads(childThread._id);
+    descendantThreads.push(childThread, ...descendants);
+  }
+
+  return descendantThreads;
+}
+
+export async function deleteThread(id: string, path: string): Promise<void> {
+  try {
+    connectToDB();
+
+    const mainThread = await Thread.findById(id).populate('author community');
+
+    if (!mainThread) {
+      throw new Error('Thread not found');
+    }
+
+    const descendantThreads = await fetchAllChildThreads(id);
+
+    const descendantThreadIds = [
+      id,
+      ...descendantThreads.map((thread) => thread._id),
+    ];
+
+    const uniqueAuthorIds = new Set(
+      [
+        ...descendantThreads.map((thread) => thread.author?._id?.toString()),
+        mainThread.author?._id?.toString(),
+      ].filter((id) => id !== undefined),
+    );
+
+    const uniqueCommunityIds = new Set(
+      [
+        ...descendantThreads.map((thread) => thread.community?._id?.toString()),
+        mainThread.community?._id?.toString(),
+      ].filter((id) => id !== undefined),
+    );
+
+    await Thread.deleteMany({ _id: { $in: descendantThreadIds } });
+
+    await User.updateMany(
+      { _id: { $in: Array.from(uniqueAuthorIds) } },
+      { $pull: { threads: { $in: descendantThreadIds } } },
+    );
+
+    await Community.updateMany(
+      { _id: { $in: Array.from(uniqueCommunityIds) } },
+      { $pull: { threads: { $in: descendantThreadIds } } },
+    );
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Failed to delete thread: ${error.message}`);
   }
 }
