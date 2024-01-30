@@ -25,7 +25,7 @@ const UserCard = ({ id, name, username, imageUrl, userType }: UserCard) => {
           alt={username}
           width={48}
           height={48}
-          className="rounded-fil"
+          className="rounded-full"
         />
 
         <div className="flex-1 text-ellipsis">
